@@ -96,6 +96,7 @@ func (m command) run(c *cli.Context, cfg *options) error {
 
 	ldconfigPath := m.resolveLDConfigPath(cfg.ldconfigPath)
 	args := []string{filepath.Base(ldconfigPath)}
+	args = append(args, "-n")
 	if containerRoot != "" {
 		args = append(args, "-r", containerRoot)
 	}
