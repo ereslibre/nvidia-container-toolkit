@@ -19,6 +19,7 @@ package symlinks
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 // Resolve returns the link target of the specified filename or the filename if it is not a link.
@@ -42,6 +43,11 @@ func ForceCreate(target string, link string) error {
 		return fmt.Errorf("failed to get file info: %w", err)
 	}
 	if !os.IsNotExist(err) {
+		_, err := filepath.Rel("/nix", link)
+		if (err == nil) {
+			// If link is a subpath of /nix, just no-op
+			return nil;
+		}
 		if err := os.Remove(link); err != nil {
 			return fmt.Errorf("failed to remove existing file: %w", err)
 		}
