@@ -148,9 +148,9 @@ func (m command) createLink(containerRoot string, targetPath string, link string
 		return fmt.Errorf("failed to create directory: %v", err)
 	}
 	err = symlinks.ForceCreate(targetPath, resolvedLinkPath)
-	if err != nil {
-		return fmt.Errorf("failed to create symlink: %v", err)
-	}
+	// if err != nil {
+	// 	return fmt.Errorf("failed to create symlink: %v", err)
+	// }
 
 	return nil
 }

@@ -43,7 +43,12 @@ func ForceCreate(target string, link string) error {
 		return fmt.Errorf("failed to get file info: %w", err)
 	}
 	if !os.IsNotExist(err) {
-		_, err := filepath.Rel("/nix", link)
+		_, err := filepath.Rel("/nix", target)
+		if (err == nil) {
+			// If target is a subpath of /nix, just no-op
+			return nil;
+		}
+		_, err = filepath.Rel("/nix", link)
 		if (err == nil) {
 			// If link is a subpath of /nix, just no-op
 			return nil;
